@@ -1,15 +1,15 @@
 <template>
-  <hello-world />
+  <v-container>
+    <h1 class="display-1 text-center my-4">Lista de Cursos</h1>
+  </v-container>
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
 
   export default {
     name: 'Home-view',
 
     components: {
-      HelloWorld,
     },
   }
 </script>
