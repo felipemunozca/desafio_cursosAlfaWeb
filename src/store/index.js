@@ -81,6 +81,30 @@ export default new Vuex.Store({
     ]
   },
   getters: {
+    totalCursos: function(state) {
+      return state.cursos.length;
+    },
+    totalAlumnosPermitidos: function(state) {
+      return state.cursos.reduce((total, cursos) => {
+        // console.log(total)
+        return total + cursos.cupos;
+      }, 0);
+    },
+    totalAlumnosInscritos: function(state) {
+      return state.cursos.reduce((total, cursos) => {
+        // console.log(total)
+        return total + cursos.inscritos;
+      }, 0);
+    },
+    totalCursosTerminados: function(state) {
+      let terminados = state.cursos.filter(buscar => buscar.completado === true);
+      // console.log(terminados.length)
+      return terminados.length;
+    },
+    totalCursosActivos: function(state) {
+      let activos = state.cursos.filter(buscar => buscar.completado === false);
+      return activos.length;
+    }
   },
   mutations: {
   },

@@ -72,32 +72,38 @@
             </v-col>
         </v-row>
         
-        <v-divider class="display-2 my-10"></v-divider>
+        <v-divider class="display-2 my-5"></v-divider>
 
         <v-row>
             <v-col cols="12">
                 <v-alert dense outlined color="purple">
-                    <v-icon color="purple">mdi-account-multiple</v-icon> Cantidad total de alumnos permitidos:
+                    <v-icon color="purple">mdi-account-multiple</v-icon> 
+                    Cantidad total de alumnos permitidos: <strong>{{ totalAlumnosPermitidos }}</strong> alumnos.
                 </v-alert>
 
                 <v-alert dense outlined color="blue">
-                    <v-icon color="blue">mdi-account-check</v-icon> Cantidad total de alumnos inscritos:
+                    <v-icon color="blue">mdi-account-check</v-icon> 
+                    Cantidad total de alumnos inscritos: <strong>{{ totalAlumnosInscritos }}</strong> alumnos.
                 </v-alert>
 
                 <v-alert dense outlined color="red">
-                    <v-icon color="red">mdi-account-plus</v-icon> Cantidad total de cupos restantes:
+                    <v-icon color="red">mdi-account-plus</v-icon> 
+                    Cantidad total de cupos restantes: <strong>{{ totalCuposRestantes }}</strong> alumnos.
                 </v-alert>
 
                 <v-alert dense outlined color="pink">
-                    <v-icon color="pink">mdi-cancel</v-icon> Cantidad de cursos terminados:
+                    <v-icon color="pink">mdi-cancel</v-icon> 
+                    Cantidad de cursos terminados: <strong>{{ totalCursosTerminados }}</strong> cursos.
                 </v-alert>
 
                 <v-alert dense outlined color="lime darken-3">
-                    <v-icon color="lime darken-3">mdi-bell-ring</v-icon> Cantidad total de cursos activos:
+                    <v-icon color="lime darken-3">mdi-bell-ring</v-icon> 
+                    Cantidad total de cursos activos: <strong>{{ totalCursosActivos }}</strong> cursos.
                 </v-alert>
 
                 <v-alert dense outlined color="orange">
-                    <v-icon color="orange">mdi-bell-ring</v-icon> Cantidad total de cursos:
+                    <v-icon color="orange">mdi-bell-ring</v-icon> 
+                    Cantidad total de cursos: <strong>{{ totalCursos }}</strong> cursos.
                 </v-alert>
             </v-col>
         </v-row>
@@ -105,7 +111,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import TableCurso from '@/components/TableCursos.vue';
 
 export default {
@@ -118,6 +124,11 @@ export default {
     },
     computed: {
         ...mapState(['cursos']),
+        ...mapGetters(['totalCursos', 'totalAlumnosPermitidos', 'totalAlumnosInscritos', 'totalCursosTerminados', 'totalCursosActivos']),
+
+        totalCuposRestantes() {
+            return this.totalAlumnosPermitidos - this.totalAlumnosInscritos;
+        },
     },
     // methods: {}
     // watch: {},
