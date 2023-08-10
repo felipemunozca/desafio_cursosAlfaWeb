@@ -32,8 +32,11 @@
                                 <div class="font-weight-normal">
                                     Cupos: <strong>{{ curso.cupos }}</strong>
                                 </div>
-                                <div>
-                                    Completado: {{ curso.completado }}
+                                <div v-if="curso.completado == true">
+                                    Completado: Sí
+                                </div>
+                                <div v-else>
+                                    Completado: No
                                 </div>
                             </div>
                         </v-timeline-item>
