@@ -16,46 +16,65 @@
                         <v-container>
                             <v-row>
                                 <v-col cols="12">
-                                    <v-text-field label="Nombre"></v-text-field>
-                                    <v-text-field label="URL de la imagen"></v-text-field>
-                                    <v-text-field type="number" label="Cupos del curso"></v-text-field>
-                                    <v-text-field type="number" label="Inscritos en el curso"></v-text-field>
-                                    <v-text-field label="Duración del curso"></v-text-field>
-                                    <v-text-field type="date" label="Fecha de registro"></v-text-field>
-                                    <v-text-field type="number" label="Costo del curso"></v-text-field>
-                                    <v-textarea label="Descripción del curso"></v-textarea>
+                                    <v-form ref="form" v-model="valid" lazy-validation>
+
+                                        <v-text-field 
+                                            v-model="nombre" 
+                                            :rules="nameRules" 
+                                            label="Nombre" required>
+                                        </v-text-field>
+                                        <v-text-field 
+                                            v-model="img" 
+                                            :rules="imgRules" 
+                                            label="URL de la imagen">
+                                        </v-text-field>
+                                        <v-text-field 
+                                            v-model="cupos" 
+                                            :rules="quotaRules" 
+                                            type="number" 
+                                            label="Cupos del curso">
+                                        </v-text-field>
+                                        <v-text-field 
+                                            v-model="inscritos" 
+                                            :rules="inscribedRules" 
+                                            type="number" 
+                                            label="Inscritos en el curso">
+                                        </v-text-field>
+                                        <v-text-field 
+                                            v-model="duracion" 
+                                            :rules="durationRules" 
+                                            label="Duración del curso">
+                                        </v-text-field>
+                                        <v-text-field 
+                                            v-model="fecha" 
+                                            :rules="dateRules"
+                                            type="date" 
+                                            label="Fecha de registro">
+                                        </v-text-field>
+                                        <v-text-field 
+                                            v-model="costo" 
+                                            :rules="costRules"
+                                            type="number" 
+                                            label="Costo del curso">
+                                        </v-text-field>
+                                        <v-textarea 
+                                            v-model="descripcion" 
+                                            :rules="descriptionRules"
+                                            label="Descripción del curso">
+                                        </v-textarea>
+
+                                    </v-form>
                                 </v-col>
-                                <!-- <v-col cols="12">
-                                    <v-text-field label="Nombre"></v-text-field>
-                                </v-col>
-                                <v-col cols="12">
-                                    <v-text-field label="URL de la imagen"></v-text-field>
-                                </v-col>
-                                <v-col cols="12">
-                                    <v-text-field type="number" label="Cupos del curso"></v-text-field>
-                                </v-col>
-                                <v-col cols="12">
-                                    <v-text-field type="number" label="Inscritos en el curso"></v-text-field>
-                                </v-col>
-                                <v-col cols="12">
-                                    <v-text-field label="Duración del curso"></v-text-field>
-                                </v-col>
-                                <v-col cols="12">
-                                    <v-text-field type="date" label="Fecha de registro"></v-text-field>
-                                </v-col>
-                                <v-col cols="12">
-                                    <v-text-field type="number" label="Costo del curso"></v-text-field>
-                                </v-col>
-                                <v-col cols="12">
-                                    <v-textarea label="Descripción del curso"></v-textarea>
-                                </v-col> -->
                             </v-row>
                         </v-container>
                     </v-card-text>
-                    <v-card-actions class="d-flex align-content-start" > <!--  align-start -->
+                    <v-card-actions class="d-flex align-content-start pb-6" > <!--  align-start -->
                         <v-spacer></v-spacer>
-                        <v-btn color="success" > <!-- @click="dialog = false" -->
+                        <v-btn :disabled="!valid" color="success" @click="validarFormulario" class="mr-4">
                             Agregar
+                        </v-btn>
+                        <v-btn color="warning" @click="reiniciarFormulario" class="mr-4">
+                            Limpiar Formulario
                         </v-btn>
                         <v-btn color="error" @click="dialog = false">
                             Cancelar
@@ -65,61 +84,65 @@
             </v-dialog>
         </v-row>
 
-        <v-row>
-            <v-col>
-            <!-- <v-col v-for="curso in cursos" :key="curso.id"> -->
-                <table-cursos-comp :cursos="cursos"/>
-            </v-col>
-        </v-row>
+        <table-cursos-comp :cursos="cursos" @eliminarCurso="eliminarCurso" />
         
         <v-divider class="display-2 my-5"></v-divider>
 
-        <v-row>
-            <v-col cols="12">
-                <v-alert dense outlined color="purple">
-                    <v-icon color="purple">mdi-account-multiple</v-icon> 
-                    Cantidad total de alumnos permitidos: <strong>{{ totalAlumnosPermitidos }}</strong> alumnos.
-                </v-alert>
+        <alertas-administrador-comp/>
 
-                <v-alert dense outlined color="blue">
-                    <v-icon color="blue">mdi-account-check</v-icon> 
-                    Cantidad total de alumnos inscritos: <strong>{{ totalAlumnosInscritos }}</strong> alumnos.
-                </v-alert>
-
-                <v-alert dense outlined color="red">
-                    <v-icon color="red">mdi-account-plus</v-icon> 
-                    Cantidad total de cupos restantes: <strong>{{ totalCuposRestantes }}</strong> alumnos.
-                </v-alert>
-
-                <v-alert dense outlined color="pink">
-                    <v-icon color="pink">mdi-cancel</v-icon> 
-                    Cantidad de cursos terminados: <strong>{{ totalCursosTerminados }}</strong> cursos.
-                </v-alert>
-
-                <v-alert dense outlined color="lime darken-3">
-                    <v-icon color="lime darken-3">mdi-bell-ring</v-icon> 
-                    Cantidad total de cursos activos: <strong>{{ totalCursosActivos }}</strong> cursos.
-                </v-alert>
-
-                <v-alert dense outlined color="orange">
-                    <v-icon color="orange">mdi-bell-ring</v-icon> 
-                    Cantidad total de cursos: <strong>{{ totalCursos }}</strong> cursos.
-                </v-alert>
-            </v-col>
-        </v-row>
     </v-container>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 import TableCurso from '@/components/TableCursos.vue';
+import AlertasAdministrador from '@/components/AlertasAdministrador.vue';
 
 export default {
     name: 'admin-view',
     // props: {},
     data: function(){
         return {
-            dialog: false, // para cerrar el componente dialog.
+            // para cerrar el componente dialog del formulario de nuevo curso.
+            dialog: false,
+
+            // variables para v-model de cada input.
+            nombre: '',
+            img: '',
+            cupos: '',
+            inscritos: '',
+            duracion: '',
+            fecha: '',
+            costo: '',
+            //completado: false,
+            descripcion: '',
+
+            // validación de cada input.
+            valid: true,
+            nameRules: [
+                v => !!v || 'El nombre del curso es requerido',
+            ],
+            imgRules: [
+                v => !!v || 'La imagen de portada es requerida',
+            ],
+            quotaRules: [
+                v => !!v || 'La cantidad de cupos es requerida',
+            ],
+            inscribedRules: [
+                v => !!v || 'La cantidad de inscritos es requerida',
+            ],
+            durationRules: [
+                v => !!v || 'La duración del curso es requerida',
+            ],
+            dateRules: [
+                v => !!v || 'La fecha es requerida',
+            ],
+            costRules: [
+                v => !!v || 'El costo del curso es requerido',
+            ],
+            descriptionRules: [
+                v => !!v || 'La descripción es requerida',
+            ],
         }
     },
     computed: {
@@ -130,10 +153,57 @@ export default {
             return this.totalAlumnosPermitidos - this.totalAlumnosInscritos;
         },
     },
-    // methods: {}
+    methods: {
+        ...mapActions(['agregarCurso', 'eliminarCurso']),
+        
+        validarFormulario () {
+            if (this.$refs.form.validate() == false) {
+                console.log('validadno')
+                return
+            } else {
+                this.registrarNuevoCurso();
+            }
+
+        },
+        reiniciarFormulario () {
+            this.$refs.form.reset()
+        },
+
+
+        registrarNuevoCurso() {
+
+            let newCurso = {
+                id: Math.floor(Math.random() * 1000),
+                nombre: this.nombre,
+                img: this.img,
+                costo: parseInt(this.costo),
+                duracion: this.duracion,
+                cupos: parseInt(this.cupos),
+                inscritos: parseInt(this.inscritos),
+                completado: false,
+                fecha_registro: this.fecha,
+                descripcion: this.descripcion,
+            }
+            console.log(newCurso);
+            this.agregarCurso(newCurso);
+            this.reiniciarFormulario();
+
+        },
+        limpiarFormulario() {
+            this.nombre = '';
+            this.img = '';
+            this.costo = '';
+            this.duracion = '';
+            this.cupos = '';
+            this.inscritos = '';
+            this.fecha = '';
+            this.descripcion = '';
+        },
+    },
     // watch: {},
     components: {
         'table-cursos-comp': TableCurso,
+        'alertas-administrador-comp': AlertasAdministrador,
     },
     // mixins: [],
     // filters: {},

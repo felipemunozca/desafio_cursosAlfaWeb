@@ -107,8 +107,21 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    AGREGAR_CURSO: (state, nuevoCurso) => {
+      state.cursos.push(nuevoCurso);
+    },
+    ELIMINAR_CURSO: (state, idCurso) => {
+      let index = state.cursos.findIndex(curso => curso.id == idCurso);
+      state.cursos.splice(index, 1);
+    },
   },
   actions: {
+    agregarCurso({commit}, nuevoCurso){
+      commit('AGREGAR_CURSO', nuevoCurso);
+    },
+    eliminarCurso({commit}, idCurso){
+      commit('ELIMINAR_CURSO', idCurso);
+    }
   },
   modules: {
   }
