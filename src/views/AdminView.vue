@@ -84,7 +84,7 @@
             </v-dialog>
         </v-row>
 
-        <table-cursos-comp :cursos="cursos" @eliminarCurso="eliminarCurso" />
+        <table-cursos-comp :cursos="cursos" @eliminarCurso="eliminarCurso" @editarCurso="editarCurso" />
         
         <v-divider class="display-2 my-5"></v-divider>
 
@@ -154,24 +154,20 @@ export default {
         },
     },
     methods: {
-        ...mapActions(['agregarCurso', 'eliminarCurso']),
+        ...mapActions(['agregarCurso', 'eliminarCurso', 'editarCurso']),
         
         validarFormulario () {
             if (this.$refs.form.validate() == false) {
-                console.log('validadno')
-                return
+                return // retorna vació.
             } else {
                 this.registrarNuevoCurso();
             }
-
         },
         reiniciarFormulario () {
             this.$refs.form.reset()
         },
 
-
         registrarNuevoCurso() {
-
             let newCurso = {
                 id: Math.floor(Math.random() * 1000),
                 nombre: this.nombre,
@@ -187,7 +183,6 @@ export default {
             console.log(newCurso);
             this.agregarCurso(newCurso);
             this.reiniciarFormulario();
-
         },
         limpiarFormulario() {
             this.nombre = '';

@@ -63,17 +63,17 @@
                                 Uncaught      VDialog.ts:239
                             -->
 
-                            <!-- <v-dialog v-model="modalDelete" max-width="500px">
+                            <!-- <v-dialog v-model="dialogDelete" max-width="500px">
                                 <v-card>
                                     <v-card-text class="text-h5 black--text pt-4">
                                         ¿Esta seguro que desea eliminar el curso?
                                     </v-card-text>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
-                                        <v-btn color="error" class="me-5" @click="cerrarModalEliminar">
+                                        <v-btn color="error" class="me-5" @click="dialogDelete = false">
                                             Cancelar
                                         </v-btn>
-                                        <v-btn color="success" @click="eliminarCurso">
+                                        <v-btn color="success" @click="eliminarCurso(curso.id)">
                                             Aceptar
                                         </v-btn>
                                         <v-spacer></v-spacer>
@@ -84,7 +84,7 @@
                             <td>
                                 <div class="d-flex justify-space-around">
                                     <v-btn elevation="0" icon class="mx-1">
-                                        <v-icon color="yellow darken-3">mdi-pencil</v-icon>
+                                        <v-icon @click="editarCurso(curso.id)" color="yellow darken-3">mdi-pencil</v-icon>
                                     </v-btn>
                                     <v-btn elevation="0" icon>
                                         <!-- <v-icon @click="abrirModalEliminar(curso.id)" color="red darken-2" >mdi-delete</v-icon> -->
@@ -92,18 +92,19 @@
                                     </v-btn>
                                 </div>
                             </td>
-                            
                         </tr>
                     </tbody>
                     
                 </template>
             </v-simple-table>
         </v-col>
+        
     </v-row>
 
 </template>
 
 <script>
+
 export default {
     name: 'tabla-cursos-comp',
     props: {
@@ -115,26 +116,32 @@ export default {
     data: function(){
         return {
             dialog: false,
-            // modalDelete: false,
+            // dialogDelete: false,
             // deleteId: null,
         }
     },
     // computed: {},
     methods: {
         // abrirModalEliminar(id) {
-        //     this.modalDelete = true;
+        //     this.dialogDelete = true;
         //     this.deleteId = id;
             
         // },
         // cerrarModalEliminar() {
-        //     this.modalDelete = false;
+        //     this.dialogDelete = false;
         // },
 
         eliminarCurso(id){
+            console.log(id);
             this.$emit('eliminarCurso', id);
-            console.log(id)
         },
-    }
+        editarCurso(id) {
+            //console.log(id);
+            alert('Editar el curso con el id: ' + id);
+            this.$emit('editarCurso', id);
+            // console.log(this.cursos.nombre);
+        }
+    },
     // watch: {},
     // components: {},
     // mixins: [],
