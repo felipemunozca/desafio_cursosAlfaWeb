@@ -63,7 +63,7 @@
                                 Uncaught      VDialog.ts:239
                             -->
 
-                            <!-- <v-dialog v-model="dialogDelete" max-width="500px">
+                            <v-dialog v-model="dialogDelete" max-width="500px">
                                 <v-card>
                                     <v-card-text class="text-h5 black--text pt-4">
                                         ¿Esta seguro que desea eliminar el curso?
@@ -73,13 +73,13 @@
                                         <v-btn color="error" class="me-5" @click="dialogDelete = false">
                                             Cancelar
                                         </v-btn>
-                                        <v-btn color="success" @click="eliminarCurso(curso.id)">
+                                        <v-btn color="success" @click="eliminarCurso(deleteId)">
                                             Aceptar
                                         </v-btn>
                                         <v-spacer></v-spacer>
                                     </v-card-actions>
                                 </v-card>
-                            </v-dialog> -->
+                            </v-dialog>
 
                             <td>
                                 <div class="d-flex justify-space-around">
@@ -87,8 +87,8 @@
                                         <v-icon @click="editarCurso(curso.id)" color="yellow darken-3">mdi-pencil</v-icon>
                                     </v-btn>
                                     <v-btn elevation="0" icon>
-                                        <!-- <v-icon @click="abrirModalEliminar(curso.id)" color="red darken-2" >mdi-delete</v-icon> -->
-                                        <v-icon @click="eliminarCurso(curso.id)" color="red darken-2" >mdi-delete</v-icon>
+                                        <v-icon @click="abrirModalEliminar(curso.id)" color="red darken-2" >mdi-delete</v-icon>
+                                        <!-- <v-icon @click="eliminarCurso(curso.id)" color="red darken-2" >mdi-delete</v-icon> -->
                                     </v-btn>
                                 </div>
                             </td>
@@ -116,17 +116,18 @@ export default {
     data: function(){
         return {
             dialog: false,
-            // dialogDelete: false,
-            // deleteId: null,
+            dialogDelete: false,
+            deleteId: null,
         }
     },
     // computed: {},
     methods: {
-        // abrirModalEliminar(id) {
-        //     this.dialogDelete = true;
-        //     this.deleteId = id;
-            
-        // },
+        abrirModalEliminar(id) {
+            this.dialogDelete = false;
+            this.deleteId = id;
+            console.log(this.deleteId);
+            this.dialogDelete = true;
+        },
         // cerrarModalEliminar() {
         //     this.dialogDelete = false;
         // },
@@ -134,6 +135,7 @@ export default {
         eliminarCurso(id){
             console.log(id);
             this.$emit('eliminarCurso', id);
+            this.dialogDelete = false;
         },
         editarCurso(id) {
             //console.log(id);

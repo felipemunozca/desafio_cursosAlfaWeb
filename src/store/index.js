@@ -110,9 +110,10 @@ export default new Vuex.Store({
     AGREGAR_CURSO: (state, nuevoCurso) => {
       state.cursos.push(nuevoCurso);
     },
-    EDITAR_CURSO: (state, idCurso) => {
-      let index = state.cursos.find(curso => curso.id == idCurso);
-      console.log(index)
+    EDITAR_CURSO: (state, idCurso, nuevoCurso) => {
+      let antiguoCurso = state.cursos.findIndex(curso => curso.id == idCurso);
+      console.log(antiguoCurso)
+      state.cursos.splice(antiguoCurso, 1, nuevoCurso)
     },
     ELIMINAR_CURSO: (state, idCurso) => {
       let index = state.cursos.findIndex(curso => curso.id == idCurso);
@@ -123,8 +124,8 @@ export default new Vuex.Store({
     agregarCurso({commit}, nuevoCurso){
       commit('AGREGAR_CURSO', nuevoCurso);
     },
-    editarCurso({commit}, antiguoCurso){
-      commit('EDITAR_CURSO', antiguoCurso);
+    editarCurso({commit}, idCurso, antiguoCurso){
+      commit('EDITAR_CURSO', idCurso, antiguoCurso);
     },
     eliminarCurso({commit}, idCurso){
       commit('ELIMINAR_CURSO', idCurso);

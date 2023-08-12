@@ -84,7 +84,9 @@
             </v-dialog>
         </v-row>
 
-        <table-cursos-comp :cursos="cursos" @eliminarCurso="eliminarCurso" @editarCurso="editarCurso" />
+        <!-- <table-cursos-comp :cursos="cursos" @eliminarCurso="eliminarCurso" @editarCurso="editarCurso" /> -->
+
+        <data-table-cursos-comp :cursos="cursos" @eliminarCurso="eliminarCurso" @editarCurso="editarCurso" />
         
         <v-divider class="display-2 my-5"></v-divider>
 
@@ -95,8 +97,9 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex';
-import TableCurso from '@/components/TableCursos.vue';
+//import TableCurso from '@/components/TableCursos.vue';
 import AlertasAdministrador from '@/components/AlertasAdministrador.vue';
+import DataTableCursos from '@/components/DataTableCursos.vue';
 
 export default {
     name: 'admin-view',
@@ -168,6 +171,10 @@ export default {
         },
 
         registrarNuevoCurso() {
+            if (parseInt(this.inscritos) > parseInt(this.cupos)) {
+                return alert('La cantidad de inscritos no puede superior a la cantidad de cupos del curso.')
+            }
+
             let newCurso = {
                 id: Math.floor(Math.random() * 1000),
                 nombre: this.nombre,
@@ -197,8 +204,9 @@ export default {
     },
     // watch: {},
     components: {
-        'table-cursos-comp': TableCurso,
+        //'table-cursos-comp': TableCurso,
         'alertas-administrador-comp': AlertasAdministrador,
+        'data-table-cursos-comp': DataTableCursos,
     },
     // mixins: [],
     // filters: {},
